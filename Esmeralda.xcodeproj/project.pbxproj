@@ -1,0 +1,454 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		49ACE69419ED117200D9874F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 49ACE69319ED117200D9874F /* main.m */; };
+		49ACE69719ED117200D9874F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 49ACE69619ED117200D9874F /* AppDelegate.m */; };
+		49ACE69A19ED117200D9874F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49ACE69919ED117200D9874F /* ViewController.m */; };
+		49ACE69D19ED117200D9874F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 49ACE69B19ED117200D9874F /* Main.storyboard */; };
+		49ACE69F19ED117200D9874F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 49ACE69E19ED117200D9874F /* Images.xcassets */; };
+		49ACE6A219ED117200D9874F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49ACE6A019ED117200D9874F /* LaunchScreen.xib */; };
+		49ACE6AE19ED117200D9874F /* EsmeraldaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 49ACE6AD19ED117200D9874F /* EsmeraldaTests.m */; };
+		49ACE6B919ED12EF00D9874F /* EsmeraldaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 49ACE6B819ED12EF00D9874F /* EsmeraldaView.m */; };
+		49ACE6BC19ED14E100D9874F /* EsmeraldaLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 49ACE6BB19ED14E100D9874F /* EsmeraldaLibrary.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		49ACE6A819ED117200D9874F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49ACE68619ED117100D9874F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 49ACE68D19ED117200D9874F;
+			remoteInfo = Esmeralda;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		49ACE68E19ED117200D9874F /* Esmeralda.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Esmeralda.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		49ACE69219ED117200D9874F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		49ACE69319ED117200D9874F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		49ACE69519ED117200D9874F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		49ACE69619ED117200D9874F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		49ACE69819ED117200D9874F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		49ACE69919ED117200D9874F /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		49ACE69C19ED117200D9874F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		49ACE69E19ED117200D9874F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		49ACE6A119ED117200D9874F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		49ACE6A719ED117200D9874F /* EsmeraldaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EsmeraldaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		49ACE6AC19ED117200D9874F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		49ACE6AD19ED117200D9874F /* EsmeraldaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EsmeraldaTests.m; sourceTree = "<group>"; };
+		49ACE6B719ED12EF00D9874F /* EsmeraldaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EsmeraldaView.h; sourceTree = "<group>"; };
+		49ACE6B819ED12EF00D9874F /* EsmeraldaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EsmeraldaView.m; sourceTree = "<group>"; };
+		49ACE6BA19ED14E100D9874F /* EsmeraldaLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EsmeraldaLibrary.h; sourceTree = "<group>"; };
+		49ACE6BB19ED14E100D9874F /* EsmeraldaLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EsmeraldaLibrary.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		49ACE68B19ED117200D9874F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49ACE6A419ED117200D9874F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		49ACE68519ED117100D9874F = {
+			isa = PBXGroup;
+			children = (
+				49ACE69019ED117200D9874F /* Esmeralda */,
+				49ACE6AA19ED117200D9874F /* EsmeraldaTests */,
+				49ACE68F19ED117200D9874F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		49ACE68F19ED117200D9874F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				49ACE68E19ED117200D9874F /* Esmeralda.app */,
+				49ACE6A719ED117200D9874F /* EsmeraldaTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		49ACE69019ED117200D9874F /* Esmeralda */ = {
+			isa = PBXGroup;
+			children = (
+				49ACE69519ED117200D9874F /* AppDelegate.h */,
+				49ACE69619ED117200D9874F /* AppDelegate.m */,
+				49ACE69819ED117200D9874F /* ViewController.h */,
+				49ACE69919ED117200D9874F /* ViewController.m */,
+				49ACE69B19ED117200D9874F /* Main.storyboard */,
+				49ACE69E19ED117200D9874F /* Images.xcassets */,
+				49ACE6A019ED117200D9874F /* LaunchScreen.xib */,
+				49ACE69119ED117200D9874F /* Supporting Files */,
+				49ACE6B719ED12EF00D9874F /* EsmeraldaView.h */,
+				49ACE6B819ED12EF00D9874F /* EsmeraldaView.m */,
+				49ACE6BD19ED14E400D9874F /* EsmeraldaLibrary */,
+			);
+			path = Esmeralda;
+			sourceTree = "<group>";
+		};
+		49ACE69119ED117200D9874F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				49ACE69219ED117200D9874F /* Info.plist */,
+				49ACE69319ED117200D9874F /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		49ACE6AA19ED117200D9874F /* EsmeraldaTests */ = {
+			isa = PBXGroup;
+			children = (
+				49ACE6AD19ED117200D9874F /* EsmeraldaTests.m */,
+				49ACE6AB19ED117200D9874F /* Supporting Files */,
+			);
+			path = EsmeraldaTests;
+			sourceTree = "<group>";
+		};
+		49ACE6AB19ED117200D9874F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				49ACE6AC19ED117200D9874F /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		49ACE6BD19ED14E400D9874F /* EsmeraldaLibrary */ = {
+			isa = PBXGroup;
+			children = (
+				49ACE6BA19ED14E100D9874F /* EsmeraldaLibrary.h */,
+				49ACE6BB19ED14E100D9874F /* EsmeraldaLibrary.m */,
+			);
+			name = EsmeraldaLibrary;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		49ACE68D19ED117200D9874F /* Esmeralda */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 49ACE6B119ED117200D9874F /* Build configuration list for PBXNativeTarget "Esmeralda" */;
+			buildPhases = (
+				49ACE68A19ED117200D9874F /* Sources */,
+				49ACE68B19ED117200D9874F /* Frameworks */,
+				49ACE68C19ED117200D9874F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Esmeralda;
+			productName = Esmeralda;
+			productReference = 49ACE68E19ED117200D9874F /* Esmeralda.app */;
+			productType = "com.apple.product-type.application";
+		};
+		49ACE6A619ED117200D9874F /* EsmeraldaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 49ACE6B419ED117200D9874F /* Build configuration list for PBXNativeTarget "EsmeraldaTests" */;
+			buildPhases = (
+				49ACE6A319ED117200D9874F /* Sources */,
+				49ACE6A419ED117200D9874F /* Frameworks */,
+				49ACE6A519ED117200D9874F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				49ACE6A919ED117200D9874F /* PBXTargetDependency */,
+			);
+			name = EsmeraldaTests;
+			productName = EsmeraldaTests;
+			productReference = 49ACE6A719ED117200D9874F /* EsmeraldaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		49ACE68619ED117100D9874F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "Marc Exposito";
+				TargetAttributes = {
+					49ACE68D19ED117200D9874F = {
+						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = 696S633S3D;
+					};
+					49ACE6A619ED117200D9874F = {
+						CreatedOnToolsVersion = 6.1;
+						TestTargetID = 49ACE68D19ED117200D9874F;
+					};
+				};
+			};
+			buildConfigurationList = 49ACE68919ED117100D9874F /* Build configuration list for PBXProject "Esmeralda" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 49ACE68519ED117100D9874F;
+			productRefGroup = 49ACE68F19ED117200D9874F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				49ACE68D19ED117200D9874F /* Esmeralda */,
+				49ACE6A619ED117200D9874F /* EsmeraldaTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		49ACE68C19ED117200D9874F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49ACE69D19ED117200D9874F /* Main.storyboard in Resources */,
+				49ACE6A219ED117200D9874F /* LaunchScreen.xib in Resources */,
+				49ACE69F19ED117200D9874F /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49ACE6A519ED117200D9874F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		49ACE68A19ED117200D9874F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49ACE69A19ED117200D9874F /* ViewController.m in Sources */,
+				49ACE69719ED117200D9874F /* AppDelegate.m in Sources */,
+				49ACE69419ED117200D9874F /* main.m in Sources */,
+				49ACE6BC19ED14E100D9874F /* EsmeraldaLibrary.m in Sources */,
+				49ACE6B919ED12EF00D9874F /* EsmeraldaView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49ACE6A319ED117200D9874F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				49ACE6AE19ED117200D9874F /* EsmeraldaTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		49ACE6A919ED117200D9874F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 49ACE68D19ED117200D9874F /* Esmeralda */;
+			targetProxy = 49ACE6A819ED117200D9874F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		49ACE69B19ED117200D9874F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				49ACE69C19ED117200D9874F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		49ACE6A019ED117200D9874F /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				49ACE6A119ED117200D9874F /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		49ACE6AF19ED117200D9874F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		49ACE6B019ED117200D9874F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		49ACE6B219ED117200D9874F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Esmeralda/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		49ACE6B319ED117200D9874F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Esmeralda/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		49ACE6B519ED117200D9874F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = EsmeraldaTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Esmeralda.app/Esmeralda";
+			};
+			name = Debug;
+		};
+		49ACE6B619ED117200D9874F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = EsmeraldaTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Esmeralda.app/Esmeralda";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		49ACE68919ED117100D9874F /* Build configuration list for PBXProject "Esmeralda" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49ACE6AF19ED117200D9874F /* Debug */,
+				49ACE6B019ED117200D9874F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		49ACE6B119ED117200D9874F /* Build configuration list for PBXNativeTarget "Esmeralda" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49ACE6B219ED117200D9874F /* Debug */,
+				49ACE6B319ED117200D9874F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		49ACE6B419ED117200D9874F /* Build configuration list for PBXNativeTarget "EsmeraldaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49ACE6B519ED117200D9874F /* Debug */,
+				49ACE6B619ED117200D9874F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 49ACE68619ED117100D9874F /* Project object */;
+}
