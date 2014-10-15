@@ -56,6 +56,8 @@
 #pragma mark - Recognizer
 - (void) startRecognizer {
     
+    NSLog(@"Punts negres inicials : %d",[pointsGesture count]);
+    
     // We need to frame the image
     [self getBoundsFromPoints];
     
@@ -82,7 +84,7 @@
         
         } else {
             
-            [self drawMatrix];
+           // [self drawMatrix];
         }
     }
     
@@ -101,7 +103,7 @@
     end.x = 0;      // x2
     end.y = 0;      // y2
     
-    [self addCustomPoints];
+    //[self addCustomPoints];
     
     for (i = 0; i < [pointsGesture count]; i++)
     {
@@ -155,6 +157,16 @@
     
     [pointsGesture addObject:[NSValue valueWithCGPoint:pointTest]];
     
+    pointTest.x = 1;
+    pointTest.y = 6;
+    
+    [pointsGesture addObject:[NSValue valueWithCGPoint:pointTest]];
+    
+    pointTest.x = 1;
+    pointTest.y = 7;
+    
+    [pointsGesture addObject:[NSValue valueWithCGPoint:pointTest]];
+    
 }
 
 - (void) assignPoints {
@@ -181,7 +193,7 @@
     }
 }
 
-- (int)  createMatrix {
+/*- (int)  createMatrix {
     
     int error = 0;
     
@@ -189,7 +201,9 @@
     int columns = (((int)rectDraw.size.width+1));
     
     // Define matrixDraw from rectDraw (lines*columns)
-    matrixDraw = (int *)malloc(lines * columns * sizeof(int));
+    matrixDraw = (int *)malloc((lines * lines +  columns) * sizeof(int));
+    
+    NSLog(@"Total caselles : %d",lines*columns);
     
     if (matrixDraw == NULL) {
         
@@ -199,7 +213,7 @@
         
         NSLog(@"Matrix [%d][%d]",lines,columns);
         
-        NSLog(@"-----------------------------------------------");
+       // NSLog(@"-----------------------------------------------");
    
         int i = 0,j = 0;
         
@@ -207,6 +221,8 @@
         {
             for (j = 0; j < columns; j++)
             {
+               //NSLog(@"i : %d j: %d total : %d",i,j,i*lines+j);
+                
                 if ([self isPoint:i andJ:j] == 1) {
                     
                     matrixDraw[i*lines + j] = 1;
@@ -216,14 +232,14 @@
                     matrixDraw[i*lines + j] = 0;
 
                 }
-                printf("%d",matrixDraw[i*lines + j]);
+             //   printf("%d",matrixDraw[i*lines + j]);
 
             }
             
-            printf("\n");
+          //  printf("\n");
         }
         
-        NSLog(@"-----------------------------------------------");
+       // NSLog(@"-----------------------------------------------");
 
 
         
@@ -231,8 +247,47 @@
     
     return error;
 
-}
+}*/
 
+- (int) createMatrix {
+    
+    
+    CGSize size = CGSizeMake((int)rectDraw.size.width+1, (int)rectDraw.size.height+1);
+    UIGraphicsBeginImageContextWithOptions(size, YES, 0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+
+    CGMutablePathRef path = CGPathCreateMutable();
+    
+    UIBezierPath *bp = [UIBezierPath bezierPath];
+    [bp moveToPoint:(CGPoint){newPointsGesture[0].x, newPointsGesture[0].y}];
+    
+    for (int i = 1; i < [pointsGesture count]; i++) {
+        [bp addLineToPoint:(CGPoint){newPointsGesture[i].x, newPointsGesture[i].y}];
+    }
+    
+    CGPathAddPath(path, nil, bp.CGPath);
+    
+   // CGContextSetFillColorWithColor(context, [[UIColor redColor] CGColor]);
+    CGContextAddPath(context, path);
+    CGContextSetRGBStrokeColor(context, 1.0, 1.0, 1.0, 1.0);
+    CGContextStrokePath(context);
+
+    //CGContextAddPath(context, path);
+    
+
+    //CGContextFillPath(context);
+    CGContextSetLineCap(context, kCGLineCapRound);
+    CGContextSetLineWidth(context, 1.0f);
+    CGContextSetBlendMode(context, kCGBlendModeNormal);
+    CGContextSetAlpha(context, 1.0f);
+    
+    UIImage *imageFinal = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    [self saveImage:imageFinal];
+    
+    return 0;
+}
 - (int)  isPoint:(int)pointI andJ:(int)pointJ {
     
     int ok = 0;
@@ -262,18 +317,20 @@
     
     CGSize size = CGSizeMake(lines, columns);
     UIGraphicsBeginImageContextWithOptions(size, YES, 0);
-    
+    int puntsNegres = 0;
     for (int i = 0; i < lines; i++)
     {
         for (int j = 0; j < columns; j++)
         {
-            
+            // Draw current point
             if ( matrixDraw[i*lines + j] == 1 ) {
                 
+                puntsNegres = puntsNegres + 1;
                 [[UIColor blackColor] setFill];
                 UIRectFill(CGRectMake(i, j, 1, 1));
                 
             } else {
+                
                 [[UIColor whiteColor] setFill];
                 UIRectFill(CGRectMake(i, j, 1, 1));
                 
@@ -282,13 +339,24 @@
         }
     }
     
+    
+    NSLog(@"Punts negre : %d",puntsNegres);
+    
     UIImage *imageFinal = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
     [self saveImage:imageFinal];
+    
+    }
 
+- (CGPoint) midPoint:(CGPoint)p1 with2:(CGPoint)p2 {
+    return CGPointMake((p1.x + p2.x) * 0.5, (p1.y + p2.y) * 0.5);
 }
 
+- (CGPoint) returnMidPointWitX1:(int)x1 Y1:(int)y1 X2:(int)x2 Y2:(int)y2 {
+    
+    return CGPointMake((x1 + x2) * 0.5, (y1+ y2) * 0.5);
+}
 - (void) saveImage: (UIImage *)myImage{
     
     NSFileManager *fileManager = [NSFileManager defaultManager];

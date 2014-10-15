@@ -43,6 +43,9 @@
     // Location point
     CGPoint firstPoint = [firstTouch locationInView:self];
     
+    firstPoint.x = (int)firstPoint.x;
+    firstPoint.y = (int)firstPoint.y;
+    
     [recognizer addPointGesture:firstPoint];
 }
 
@@ -51,6 +54,11 @@
     UITouch *movedTouch = [touches anyObject];
     
     CGPoint movedPoint = [movedTouch locationInView:self];
+    
+    movedPoint.x = (int)movedPoint.x;
+    movedPoint.y = (int)movedPoint.y;
+    
+
     
     [recognizer addPointGesture:movedPoint];
 
@@ -62,7 +70,9 @@
     UITouch *endTouch = [touches anyObject];
     
     CGPoint endPoint = [endTouch locationInView:self];
-    
+    endPoint.x = (int)endPoint.x;
+    endPoint.y = (int)endPoint.y;
+
     [recognizer addPointGesture:endPoint];
     [recognizer startRecognizer];
     
