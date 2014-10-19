@@ -1,24 +1,24 @@
 Esmeralda : Gesture Recognition for iOS made easy (Work in Progress)
 =========
 
-Esmeralda aims to recognize all kind of gestures such as basic shapes, numbers, custom gestures and of course, the basic gestures. 
+Esmeralda aims to recognize all kinds of gestures such as basic shapes, numbers, custom gestures and of course, the basic gestures. 
 
 Implemented in Objective-C, basically it has three parts to consider:
 
-	1. EsmeraldaLibrary
-	2. BBDD
-	3. Gestures-BBDD.json
+1. EsmeraldaLibrary
+2. BBDD
+3. Gestures-BBDD.json
 
 
 ##1. EsmeraldaLibrary
 
 This is the main file. It implements all the process of gesture recognition, compare with BBDD profiles and retrieve the gesture recognized.
 
-The process for gesture recognition is a kNN algorithm, which basically it takes profiles X,Y from the gesture and using euclidean distance with the BBDD, gets the minimun distance and determine what gesture is.
+The process for gesture recognition is a kNN algorithm, which basically it takes profiles X,Y from the gesture and using Euclidean distance with the BBDD, gets the minimum distance and determine what gesture is.
 
 ## 2. BBDD
 
-This goal of this file is to read all "Gesture-BBDD.json" and store the data. This class is based on Singleton pattern.
+This goal of this file is to read all "Gesture-BBDD.json" and store the data. This class is based on the Singleton pattern.
 
 ## 3. Gestures-BBDD.json
 
@@ -29,10 +29,10 @@ In the future, the developer will enter on esmeralda website, choose the gesture
 Work in Progress
 ========
 
-	* Improve the BBDD (more gestures and less size)
-	* Make this library as a subclass of UIGestureRecognizer
-	* Improve the recognition (try other distance like Chebishev distance), get more information about the gesture not only profiles
-	* Refactor coding
+* Improve the BBDD (more gestures and less size)
+* Make this library as a subclass of UIGestureRecognizer
+* Improve the recognition (try other distance like Chebishev distance), get more information about the gesture not only profiles
+* Refactor coding
 
 # IMPORTANT
 
