@@ -12,11 +12,18 @@
     
     NSMutableArray *pointsGesture;
     CGPoint *newPointsGesture;
-    int *matrixDraw;
     CGRect rectDraw;
+    int profilesX[400];
+    int profilesY[400];
+    Coincidence bestMatches[kNN];
+    int numberEntries;
+    int typeGesture;
+    NSMutableArray *arrayX;
+    NSMutableArray *arrayY;
 
 }
 
+#pragma mark - Init 
 
 - (id) init {
     
@@ -29,10 +36,28 @@
     return self;
 }
 
+
 #pragma mark - Recognizer configuration methods
+
 - (void) configure {
     
     pointsGesture = [[NSMutableArray alloc]init];
+    
+    // Init best matches for kNN
+    numberEntries = 0;
+    int i = 0;
+    for (i = 0 ; i < kNN; i++) {
+        bestMatches[i].distance = -1;
+        bestMatches[i].tipus = -1;
+    }
+    
+    typeGesture = -1;
+    
+    arrayX = [[NSMutableArray alloc]init];
+    arrayY = [[NSMutableArray alloc]init];
+    
+
+    
 }
 
 - (void) addPointGesture:(CGPoint) pointGesture {
@@ -49,14 +74,33 @@
     rectDraw.size.width = 0;
     rectDraw.size.height = 0;
     
+    // Init arrays for profiles
+    for (int i = 0; i < MAX_WIDTH; i++)
+        profilesX[i] = 0;
+    
+    for (int i = 0; i < MAX_HEIGHT; i++)
+        profilesY[i] = 0;
+    
     free(newPointsGesture);
-    free(matrixDraw);
+    
+    // Init best matches for kNN
+    numberEntries = 0;
+    int i = 0;
+    for (i = 0 ; i < kNN; i++) {
+        bestMatches[i].distance = -1;
+        bestMatches[i].tipus = -1;
+    }
+    
+    typeGesture = -1;
+    
+    
 }
 
+
 #pragma mark - Recognizer
-- (void) startRecognizer {
+
+- (void) startRecognizerWithCompletion:(void (^)(int))completionBlock {
     
-    NSLog(@"Punts negres inicials : %d",[pointsGesture count]);
     
     // We need to frame the image
     [self getBoundsFromPoints];
@@ -75,23 +119,42 @@
         // Change points coordinates
         [self changePoints];
         
-        // Create matrix
-        int error = [self createMatrix];
+        // Create image
+        UIImage *imageDraw = [self createImage];
         
-        if (error == 1) {
-            
-            NSLog(@"Error in getting memory for matrix");
+        // For checking creating
+       // [self saveImage:imageDraw withName:@"/Users/Marc/Desktop/creating.jpg"];
         
-        } else {
+        // Resize image to MAX_WIDTH MAX_HEIGTH
+        UIImage *imageResized = [self resizeImage:imageDraw];
+        
+        // For checking resizing
+        //[self saveImageInAlbum:imageResized];
+        //[self saveImage:imageResized withName:@"/Users/Marc/Desktop/resizing.jpg"];
+        
+
+        [self getProfiles:imageResized];
+        
+        NSLog(@"Type gesture no recognised : %d",typeGesture);
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             
-           // [self drawMatrix];
-        }
+            typeGesture = [self startAnalysis];
+            completionBlock(typeGesture);
+            [self finishGesture];
+
+        });
+       
+        
+        
     }
     
-    [self finishGesture];
+    
 }
 
-#pragma mark - Auxiliar methods for image recognition
+
+#pragma mark - Auxiliar methods
+
 - (void) getBoundsFromPoints {
     
     CGPoint start,end;
@@ -123,49 +186,7 @@
     
     rectDraw = CGRectMake(start.x, start.y, (end.x - start.x), (end.y - start.y));
     
-    NSLog(@"Rect : %f,%f %f-%f",rectDraw.origin.x,rectDraw.origin.y,(rectDraw.origin.x+rectDraw.size.width),rectDraw.origin.y+rectDraw.size.height);
-    
-}
-
-- (void) addCustomPoints {
-    
-    [pointsGesture removeAllObjects];
-    
-    CGPoint pointTest;
-    pointTest.x = 1;
-    pointTest.y = 3;
-    
-    [pointsGesture addObject:[NSValue valueWithCGPoint:pointTest]];
-    
-    pointTest.x = 0;
-    pointTest.y = 4;
-    
-    [pointsGesture addObject:[NSValue valueWithCGPoint:pointTest]];
-    
-    pointTest.x = 1;
-    pointTest.y = 4;
-    
-    [pointsGesture addObject:[NSValue valueWithCGPoint:pointTest]];
-    
-    pointTest.x = 2;
-    pointTest.y = 4;
-    
-    [pointsGesture addObject:[NSValue valueWithCGPoint:pointTest]];
-    
-    pointTest.x = 1;
-    pointTest.y = 5;
-    
-    [pointsGesture addObject:[NSValue valueWithCGPoint:pointTest]];
-    
-    pointTest.x = 1;
-    pointTest.y = 6;
-    
-    [pointsGesture addObject:[NSValue valueWithCGPoint:pointTest]];
-    
-    pointTest.x = 1;
-    pointTest.y = 7;
-    
-    [pointsGesture addObject:[NSValue valueWithCGPoint:pointTest]];
+   // NSLog(@"Rect : %f,%f %f-%f",rectDraw.origin.x,rectDraw.origin.y,(rectDraw.origin.x+rectDraw.size.width),rectDraw.origin.y+rectDraw.size.height);
     
 }
 
@@ -177,85 +198,48 @@
         
     }
     
-    NSLog(@"Points changed");
-    
 }
 
 - (void) changePoints {
-    
-    NSLog(@"Changing points...");
     
     for (int i = 0; i < [pointsGesture count]; i++) {
         
         newPointsGesture[i].x = newPointsGesture[i].x - rectDraw.origin.x;
         newPointsGesture[i].y = newPointsGesture[i].y - rectDraw.origin.y;
-
+        
     }
 }
 
-/*- (int)  createMatrix {
+- (void) showProfiles {
     
-    int error = 0;
     
-    int lines = ((int)rectDraw.size.height+1);
-    int columns = (((int)rectDraw.size.width+1));
-    
-    // Define matrixDraw from rectDraw (lines*columns)
-    matrixDraw = (int *)malloc((lines * lines +  columns) * sizeof(int));
-    
-    NSLog(@"Total caselles : %d",lines*columns);
-    
-    if (matrixDraw == NULL) {
+    NSLog(@"------------ X -------------");
+    for (int i = 0; i < MAX_WIDTH; i++) {
         
-        error = 1;
-        
-    } else {
-        
-        NSLog(@"Matrix [%d][%d]",lines,columns);
-        
-       // NSLog(@"-----------------------------------------------");
-   
-        int i = 0,j = 0;
-        
-        for (i = 0; i < lines; i++)
-        {
-            for (j = 0; j < columns; j++)
-            {
-               //NSLog(@"i : %d j: %d total : %d",i,j,i*lines+j);
-                
-                if ([self isPoint:i andJ:j] == 1) {
-                    
-                    matrixDraw[i*lines + j] = 1;
-                    
-                } else {
-                    
-                    matrixDraw[i*lines + j] = 0;
-
-                }
-             //   printf("%d",matrixDraw[i*lines + j]);
-
-            }
-            
-          //  printf("\n");
-        }
-        
-       // NSLog(@"-----------------------------------------------");
-
-
+        NSLog(@"%d",profilesY[i]);
         
     }
     
-    return error;
+    NSLog(@"------------ Y -------------");
+    for (int i = 0; i < MAX_HEIGHT; i++) {
+        
+        NSLog(@"%d",profilesX[i]);
+        
+    }
+    
+    
+}
 
-}*/
 
-- (int) createMatrix {
+#pragma mark - Image methods
+
+- (UIImage *) createImage {
     
     
     CGSize size = CGSizeMake((int)rectDraw.size.width+1, (int)rectDraw.size.height+1);
     UIGraphicsBeginImageContextWithOptions(size, YES, 0);
     CGContextRef context = UIGraphicsGetCurrentContext();
-
+    
     CGMutablePathRef path = CGPathCreateMutable();
     
     UIBezierPath *bp = [UIBezierPath bezierPath];
@@ -266,101 +250,336 @@
     }
     
     CGPathAddPath(path, nil, bp.CGPath);
-    
-   // CGContextSetFillColorWithColor(context, [[UIColor redColor] CGColor]);
     CGContextAddPath(context, path);
     CGContextSetRGBStrokeColor(context, 1.0, 1.0, 1.0, 1.0);
     CGContextStrokePath(context);
-
-    //CGContextAddPath(context, path);
-    
-
-    //CGContextFillPath(context);
     CGContextSetLineCap(context, kCGLineCapRound);
     CGContextSetLineWidth(context, 1.0f);
     CGContextSetBlendMode(context, kCGBlendModeNormal);
     CGContextSetAlpha(context, 1.0f);
     
-    UIImage *imageFinal = UIGraphicsGetImageFromCurrentImageContext();
+    UIImage *finalImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
-    [self saveImage:imageFinal];
-    
-    return 0;
-}
-- (int)  isPoint:(int)pointI andJ:(int)pointJ {
-    
-    int ok = 0;
-    
-    for (int u = 0; u < [pointsGesture count] && ok == 0; u++) {
-        
-        if ((int)newPointsGesture[u].y == pointI && (int)newPointsGesture[u].x == pointJ) {
-            
-            ok = 1;
-            
-        } else {
-            
-            ok = 0;
-        }
-    }
-    
-    return ok;
+    return finalImage;
 }
 
-#pragma mark - Drawing methods
-- (void) drawMatrix {
+- (void) saveImage:(UIImage *) myImage  withName:(NSString *)imageName {
     
-    NSLog(@"Drawing matrix...");
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSData *myImageData = UIImageJPEGRepresentation(myImage, 1.0);
+    [fileManager createFileAtPath:imageName contents:myImageData attributes:nil];
+}
+
+- (void)    saveImageInAlbum:(UIImage *) myImage {
     
-    int lines = ((int)rectDraw.size.height+1);
-    int columns = (((int)rectDraw.size.width+1));
+    // Save image in photo album
+    UIImageWriteToSavedPhotosAlbum(myImage,
+                                   nil,
+                                   nil,
+                                   nil);
     
-    CGSize size = CGSizeMake(lines, columns);
-    UIGraphicsBeginImageContextWithOptions(size, YES, 0);
-    int puntsNegres = 0;
-    for (int i = 0; i < lines; i++)
+    
+    
+}
+
+- (UIImage *) resizeImage:(UIImage *) myImage{
+    
+    CGSize newSize;
+    newSize.width = MAX_WIDTH;
+    newSize.height = MAX_HEIGHT;
+    
+    // 1.0 if we want width height no matter retina
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 1.0);
+    [myImage drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+   // NSLog(@"Resizing to %f %f",newSize.width,newSize.height);
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+    
+}
+
+- (void) getProfiles: (UIImage *) myImage{
+    
+    CGImageRef imageRef = [myImage CGImage];
+    NSUInteger width = CGImageGetWidth(imageRef);
+    NSUInteger height = CGImageGetHeight(imageRef);
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    
+    unsigned char *rawData = (unsigned char*) calloc(height * width * 4, sizeof(unsigned char));
+    NSUInteger bytesPerPixel = 4;
+    NSUInteger bytesPerRow = bytesPerPixel * width;
+    NSUInteger bitsPerComponent = 8;
+    CGContextRef context = CGBitmapContextCreate(rawData, width, height,
+                                                 bitsPerComponent, bytesPerRow, colorSpace,
+                                                 kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+    CGColorSpaceRelease(colorSpace);
+    
+    CGContextDrawImage(context, CGRectMake(0, 0, width, height), imageRef);
+    CGContextRelease(context);
+    
+    //NSLog(@"Width %lu Height %lu",(unsigned long)width,(unsigned long)height);
+    
+    
+    // Get profiles
+    int sumaX = 0;
+    for (int j = 0 ; j < width;j++)
     {
-        for (int j = 0; j < columns; j++)
+        profilesY[j] = 0;
+        profilesX[j] = 0;
+    }
+    
+    for (unsigned int yIndex = 0; yIndex < height; yIndex++)
+    {
+        sumaX = 0;
+        
+        for (unsigned int xIndex = 0; xIndex < width; xIndex++)
         {
-            // Draw current point
-            if ( matrixDraw[i*lines + j] == 1 ) {
-                
-                puntsNegres = puntsNegres + 1;
-                [[UIColor blackColor] setFill];
-                UIRectFill(CGRectMake(i, j, 1, 1));
-                
-            } else {
-                
-                [[UIColor whiteColor] setFill];
-                UIRectFill(CGRectMake(i, j, 1, 1));
+            
+            int r = rawData[yIndex * bytesPerRow + xIndex * 4];
+            int g = rawData[yIndex * bytesPerRow + xIndex * 4 + 1];
+            int b = rawData[yIndex * bytesPerRow + xIndex * 4 + 2];
+            
+          //  NSLog(@"r: %d g: %d  b: %d",r,g,b);
+            if (r != 0 && g != 0 && b != 0)
+            {
+                sumaX = sumaX + 1;
+                profilesY[xIndex] = profilesY[xIndex] + 1;
                 
             }
             
         }
+        
+        profilesX[yIndex] = sumaX;
     }
     
     
-    NSLog(@"Punts negre : %d",puntsNegres);
     
-    UIImage *imageFinal = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
+    //[self showProfiles];
+ 
+}
+
+- (ProfilesImage) getProfilesForJSON: (UIImage *) myImage{
     
-    [self saveImage:imageFinal];
+    CGImageRef imageRef = [myImage CGImage];
+    NSUInteger width = CGImageGetWidth(imageRef);
+    NSUInteger height = CGImageGetHeight(imageRef);
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     
+    unsigned char *rawData = (unsigned char*) calloc(height * width * 4, sizeof(unsigned char));
+    NSUInteger bytesPerPixel = 4;
+    NSUInteger bytesPerRow = bytesPerPixel * width;
+    NSUInteger bitsPerComponent = 8;
+    CGContextRef context = CGBitmapContextCreate(rawData, width, height,
+                                                 bitsPerComponent, bytesPerRow, colorSpace,
+                                                 kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+    CGColorSpaceRelease(colorSpace);
+    
+    CGContextDrawImage(context, CGRectMake(0, 0, width, height), imageRef);
+    CGContextRelease(context);
+    
+    //NSLog(@"Width %lu Height %lu",(unsigned long)width,(unsigned long)height);
+    
+    ProfilesImage profilesImage;
+    
+    // Get profiles
+    int sumaX = 0;
+    for (int j = 0 ; j < width;j++)
+    {
+        profilesImage.profilesY[j] = 0;
+        profilesImage.profilesX[j] = 0;
     }
-
-- (CGPoint) midPoint:(CGPoint)p1 with2:(CGPoint)p2 {
-    return CGPointMake((p1.x + p2.x) * 0.5, (p1.y + p2.y) * 0.5);
-}
-
-- (CGPoint) returnMidPointWitX1:(int)x1 Y1:(int)y1 X2:(int)x2 Y2:(int)y2 {
     
-    return CGPointMake((x1 + x2) * 0.5, (y1+ y2) * 0.5);
-}
-- (void) saveImage: (UIImage *)myImage{
+    for (unsigned int yIndex = 0; yIndex < height; yIndex++)
+    {
+        sumaX = 0;
+        
+        for (unsigned int xIndex = 0; xIndex < width; xIndex++)
+        {
+            
+            int r = rawData[yIndex * bytesPerRow + xIndex * 4];
+            int g = rawData[yIndex * bytesPerRow + xIndex * 4 + 1];
+            int b = rawData[yIndex * bytesPerRow + xIndex * 4 + 2];
+            
+            //  NSLog(@"r: %d g: %d  b: %d",r,g,b);
+            if (r != 0 && g != 0 && b != 0)
+            {
+                sumaX = sumaX + 1;
+                profilesImage.profilesY[xIndex] = profilesImage.profilesY[xIndex] + 1;
+                
+            }
+            
+        }
+        
+        profilesImage.profilesX[yIndex] = sumaX;
+    }
     
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSData *myImageData = UIImageJPEGRepresentation(myImage, 1.0);
-    [fileManager createFileAtPath:@"/Users/Marc/Desktop/tryImage.jpg" contents:myImageData attributes:nil];
+    return profilesImage;
+    
 }
+
+#pragma mark - kNN
+
+- (int) startAnalysis {
+    
+    NSLog(@"Starting analysis...");
+    
+    int numberTests = [[BBDD sharedBBDD] getNumberGestures];
+    
+   // NSLog (@"BBDD image samples: %d",numberTests);
+    
+    int i = 0;
+    float distance = -1.0;
+    
+    NSDictionary *currentProfile = [[NSDictionary alloc]init];
+    
+
+    for (i = 0; i < numberTests; i++) {
+        
+       // NSLog (@"%d ) Getting info ",i);
+        
+        // Get i-BBDD profile
+        currentProfile = [[BBDD sharedBBDD] getGestureBBDDAtIndex:i];
+        
+       // NSLog(@"Type of the shape : %d",(int)[[currentProfile valueForKey:@"Type"]intValue]);
+        
+        // Calculate distance
+        distance = [self compareOriginalProfileWithCurrentProfile:currentProfile];
+        
+       // NSLog(@"Distance of this shape : %f",distance);
+        
+        // Check distance
+       [self checkBestDistance:distance withType:[[currentProfile valueForKey:@"Type"]intValue]];
+        
+    }
+        
+    // Determine best match
+    return [self getBestMatch];
+    
+}
+
+# pragma mark - Distance methods
+- (float)       compareOriginalProfileWithCurrentProfile:(NSDictionary *)profileToCompare {
+    
+    // Here we calculate the distance (euclidian distance)
+    
+   // NSLog(@"Getting profiles X Y of BBDD");
+   // NSLog(@"ofType : %d",[[profileToCompare valueForKey:@"Type"]intValue]);
+    arrayX = [profileToCompare valueForKey:@"ProfilesX"];
+    
+    arrayY = [profileToCompare valueForKey:@"ProfilesY"];
+   // NSLog(@"Array X: %@",arrayX);
+    //NSLog(@"Array Y: %@",arrayY);
+
+    
+    float finalX[MAX_WIDTH];
+    float finalY[MAX_HEIGHT];
+    
+   // NSLog(@"Final x y created arrays");
+    
+    int i = 0;
+    float restX = 0;
+    float restY = 0;
+    for ( i = 0; i < MAX_WIDTH; i++) {
+        
+        restX = [[arrayX objectAtIndex:i] intValue] - profilesX[i];
+        restY = [[arrayY objectAtIndex:i] intValue] - profilesY[i];
+        
+      //  NSLog(@"Rest X : %f Rest Y : %f",restX,restY);
+        
+        finalX[i] = restX*restX;
+        finalY[i] = restY*restY;
+        
+    }
+    
+    float totalX = 0.0;
+    float totalY = 0.0;
+    for ( i = 0; i < MAX_WIDTH; i++) {
+        
+        totalX = totalX + finalX[i];
+        totalY = totalX + finalY[i];
+        
+    }
+    
+    float totalDistance = sqrt(totalX + totalY);
+    
+   // NSLog (@"--->Distance  : %f",totalDistance);
+    
+    return totalDistance;
+}
+
+- (void)        checkBestDistance: (float) currentDistance withType:(int)currentType {
+    
+    // Check if its a best distance and save the type
+    if (numberEntries >= 8) {
+        
+        int i = 0;
+        int max = 0;
+        int posMax = 0;
+        for (i = 0; i < kNN; i++) {
+            
+            if (bestMatches[i].distance > max) {
+                max = bestMatches[i].distance;
+                posMax = i;
+            }
+            
+        }
+        
+        if (bestMatches[posMax].distance > currentDistance) {
+            
+            numberEntries = numberEntries + 1;
+            
+            bestMatches[posMax].distance = currentDistance;
+            bestMatches[posMax].tipus = currentType;
+            
+        }
+        
+        
+    } else {
+        
+        int i = 0;
+        int done = 0;
+        for (i = 0; i < kNN && done == 0; i++) {
+            
+            if (bestMatches[i].distance == -1) {
+                
+                numberEntries = numberEntries + 1;
+                
+                bestMatches[i].distance = currentDistance;
+                bestMatches[i].tipus = currentType;
+                done = 1;
+            }
+            
+        }
+        
+    }
+    
+}
+
+- (int)         getBestMatch {
+    
+    // Check in the structure best match
+    
+    int i = 0;
+    int max = 999999999;
+    int posMatch = -1;
+
+    for (i = 0; i < kNN; i++) {
+        
+        NSLog(@"Candidat %d. Type  %d. Distance %f",i,bestMatches[i].tipus,bestMatches[i].distance);
+        
+        if (bestMatches[i].distance < max) {
+            max = bestMatches[i].distance;
+            posMatch = i;
+        }
+        
+    }
+    
+    
+    return bestMatches[posMatch].tipus;
+}
+
+
+
 @end

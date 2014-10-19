@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "EsmeraldaView.h"
-@interface ViewController : UIViewController
+#import "ELCImagePickerController.h"
+#import "JSONManager.h"
+
+@interface ViewController : UIViewController <ELCImagePickerControllerDelegate>
 
 
 @end

@@ -11,6 +11,7 @@
 @implementation EsmeraldaView {
     
     EsmeraldaLibrary *recognizer;
+    int cops;
 }
 
 - (id) init {
@@ -32,6 +33,7 @@
     
     // Esmeralda library init
     recognizer = [[EsmeraldaLibrary alloc]init];
+    cops = 0;
     
 }
 
@@ -73,12 +75,21 @@
     endPoint.x = (int)endPoint.x;
     endPoint.y = (int)endPoint.y;
 
+    cops++;
+    NSLog(@"Imatges: %d",cops);
     [recognizer addPointGesture:endPoint];
-    [recognizer startRecognizer];
+    [recognizer startRecognizerWithCompletion:^(int typeGesture){
+        
+        NSLog(@"Gesture Type : %d",typeGesture);
+        
+    }];
     
 }
 
-
+- (void) doSomething {
+    
+    
+}
 
 
 

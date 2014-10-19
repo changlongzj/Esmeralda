@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "EsmeraldaLibrary.h"
 
-@interface EsmeraldaView : UIView 
+@interface EsmeraldaView : UIView
 
 @end
