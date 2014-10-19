@@ -32,7 +32,7 @@ Work in Progress
 * Improve the BBDD (more gestures and less size)
 * Make this library as a subclass of UIGestureRecognizer
 * Improve the recognition (try other distance like Chebishev distance), get more information about the gesture not only profiles
-* Refactor coding
+* Refactoring code
 
 # IMPORTANT
 
